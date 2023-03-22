@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>汽车大数据平台</title>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/echarts.min.js"></script>
+	<script type="text/javascript"
+		src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+	<script type="text/javascript" src="../js/rate.js"></script>
+	<link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+	<div class="head clearfix">
+		<h1 class="">汽车大数据平台</h1>
+		<div class="time" id="showTime"></div>
+		<script>
+			var t = null;
+			t = setTimeout(time, 1000);//開始运行
+			function time() {
+				clearTimeout(t);//清除定时器
+				dt = new Date();
+				var y = dt.getFullYear();
+				var mt = dt.getMonth() + 1;
+				var day = dt.getDate();
+				var h = dt.getHours();//获取时
+				var m = dt.getMinutes();//获取分
+				var s = dt.getSeconds();//获取秒
+				document.getElementById("showTime").innerHTML = y + "/" + mt + "/" + day + " " + h + ":" + m + ":" + s + "";
+				t = setTimeout(time, 1000); //设定定时器，循环运行     
+			}
+
+		</script>
+	</div>
+	<div class="mainbox">
+		<div align="center" style="margin-top: 20px;">
+			<a href="/showIndex">回到首页</a>
+		</div>
+		<ul class="clearfix nav1">
+			<li style="width: 30%;">
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2023年1月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_1">
+					</div>
+				</div>
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2022年11月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_3">
+					</div>
+				</div>
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2022年9月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_5">
+					</div>
+				</div>
+			</li>
+			<li style="width: 30%;">
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2022年12月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_2">
+					</div>
+				</div>
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2022年10月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_4">
+					</div>
+				</div>
+				<div class="box" style="left: 50px;top: 40px;">
+					<div class="tit"><span>2022年8月销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 250px;width: 500px;" id="echarts_rate_6">
+					</div>
+				</div>
+			</li>
+			<li style="width: 40%;">
+				<div class="box" style="top: 40px;">
+					<div class="tit"><span>近半年销量分布</span>
+					</div>
+					<div class="boxnav" style="height: 500px;" id="echarts_rate_total">
+					</div>
+				</div>
+				<div class="box" style="top: 40px;">
+					<div class="tit"><span>近半年新能源汽车销量占比</span>
+					</div>
+					<div class="boxnav" style="height: 300px;" id="echarts_rate_new">
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+</body>
+
+</html>

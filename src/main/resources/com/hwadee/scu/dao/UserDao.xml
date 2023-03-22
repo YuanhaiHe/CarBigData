@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwadee.scu.dao.UserDao">
+    <insert id="addAccount">
+        insert into Account(username,password) values(#{username},#{password})
+    </insert>
+    <insert id="addUser">
+        insert into User(accountID,preferCarType) values(#{accountID},#{preferCarType})
+    </insert>
+    <select id="selectByUnameAndPwd" resultType="com.hwadee.scu.entities.Account">
+        select * from Account where username = #{username} and password = #{password}
+    </select>
+
+    <select id="selectUserByAccountID" resultType="com.hwadee.scu.entities.User">
+        select * from User where accountID = #{accountID}
+    </select>
+    <select id="selectAccountByUsername" resultType="com.hwadee.scu.entities.Account">
+        select * from Account where username = #{username}
+    </select>
+</mapper>

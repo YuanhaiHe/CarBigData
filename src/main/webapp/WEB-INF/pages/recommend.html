@@ -1,0 +1,317 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>汽车大数据平台</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript"
+		src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+	<link rel="stylesheet" href="css/page.css">
+</head>
+
+<style>
+	/* 按钮 购买 */
+	.fileinput-button {
+		position: relative;
+		display: inline-block;
+		background: rgba(105, 105, 105, 0.7); /* 背景色、透明度 */
+		border: 1px solid rgba(23, 23, 23, 0.4); /* 鼠标悬浮时，边框样式 */
+		border-radius: 20px; /* 圆角半径 */
+		padding: 1px 30px; /* 边距：高度、宽度 */
+		overflow: hidden;
+		color: white;
+		text-decoration: none;
+		text-indent: 0;
+		line-height: 20px;
+		font-size: 20px;
+	}
+</style>
+
+
+<body>
+	<div class="head clearfix">
+		<h1 class="">智慧推荐（期望车型推荐）</h1>
+		<div class="time" id="showTime"></div>
+		<script>
+			var t = null;
+			t = setTimeout(time, 1000);//開始运行
+			function time() {
+				clearTimeout(t);//清除定时器
+				dt = new Date();
+				var y = dt.getFullYear();
+				var mt = dt.getMonth() + 1;
+				var day = dt.getDate();
+				var h = dt.getHours();//获取时
+				var m = dt.getMinutes();//获取分
+				var s = dt.getSeconds();//获取秒
+				document.getElementById("showTime").innerHTML = y + "/" + mt + "/" + day + " " + h + ":" + m + ":" + s + "";
+				t = setTimeout(time, 1000); //设定定时器，循环运行     
+			}
+		</script>
+	</div>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<div align="center">
+
+		<!-- 【导航栏】 -->
+		<div align="center" style="margin-top: 20px;">
+			<a href="showIndex">回到首页</a>
+		</div>
+
+		<!-- 【自定义 汽车 列表】 -->
+		<div>
+
+			<!-- 第1行 汽车 -->
+			<div style="display: table; border-spacing: 50px;">
+
+				<!-- 汽车1 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_1_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_1_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_1_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车2 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_2_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_2_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_2_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车3 -->
+				<div
+				style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+				<!-- 图片 -->
+				<div id="recommend_3_img"></div>
+				<div
+					style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+					<!-- 汽车名称 -->
+					<div style="height: 5px;"></div>
+					<div>
+						<label style="font-size: 20px" id="recommend_3_name"></label>
+					</div>
+					<!-- 价格 -->
+					<div style="margin-top: 1px">
+						<label style="color: #696969" id="recommend_3_price"></label>
+					</div>
+					<!-- 购买 -->
+					<!-- <div style="margin-top: 1px">
+						<input type="button" value="+" class="fileinput-button">
+					</div> -->
+				</div>
+			</div>
+
+				<!-- 汽车4 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_4_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_4_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_4_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车5 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_5_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_5_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_5_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+			</div>
+
+			<!-- 第2行 汽车 -->
+			<div style="display: table; border-spacing: 50px;">
+
+				<!-- 汽车6 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_6_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_6_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_6_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车7 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_7_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_7_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_7_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车8 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_8_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_8_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_8_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车9 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_9_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_9_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_9_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+				<!-- 汽车10 -->
+				<div
+					style="width: 300px; height: 300px; background-color: #DCDCDC; display: table-cell;">
+					<!-- 图片 -->
+					<div id="recommend_10_img"></div>
+					<div
+						style="width: 100%; height: 100px; background-color: #F6F6F6; text-align: center;">
+						<!-- 汽车名称 -->
+						<div style="height: 5px;"></div>
+						<div>
+							<label style="font-size: 20px" id="recommend_10_name"></label>
+						</div>
+						<!-- 价格 -->
+						<div style="margin-top: 1px">
+							<label style="color: #696969" id="recommend_10_price"></label>
+						</div>
+						<!-- 购买 -->
+						<!-- <div style="margin-top: 1px">
+							<input type="button" value="+" class="fileinput-button">
+						</div> -->
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- 选好了 -->
+		<!-- <div style="margin-top: 30px; margin-bottom: 100px;">
+			<input type="submit" class="btn fileinput-button" value=""
+				onclick="ok();" style="width: 200px; height: 70px">
+		</div> -->
+
+	</div>
+	
+</body>
+<script type="text/javascript" src="js/js.js"></script>
+</html>

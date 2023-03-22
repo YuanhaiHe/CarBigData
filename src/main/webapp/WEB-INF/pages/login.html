@@ -1,0 +1,70 @@
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="my-login-box">
+    <h2>汽车大数据平台</h2>
+    <form>
+        <div class="user-box">
+            <input type="text" id="username">
+            <label>用户名</label>
+        </div>
+        <div class="user-box">
+            <input type="password" id="password">
+            <label>密码</label>
+        </div>
+        <a href="loginIndex" id="login"class="login">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span> 登录
+        </a>
+        <a href="registerIndex" id="register"class="register" style="left: 110px">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span> 注册
+        </a>
+    </form>
+</div>
+<script>
+    $(".login").on("click", function (event) {
+        event.preventDefault();//使a自带的方法失效，即无法调整到href中的URL
+        $.ajax({
+            //向后台请求数据的方式
+            type: 'post',
+            //请求后台的地址可以简写
+            url: "/login",
+            //data中的数据默认用id=1&username=zs&password=123%realname=zhangsan传递到后台
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+            },
+            //成功调用后台方法后的回调函数
+            success: function (response) {
+                if(response =="success"){
+                    location.href ="showIndex";
+<!--                    alert("登陆成功");-->
+            }
+            if(response =="null"){
+                    alert("用户名或密码为空，请重输！！");
+                    location.href = "loginIndex" ;
+                }
+                if(response == "error"){
+                    alert("密码错误，请重新输入");
+                    location.href = "loginIndex" ;
+                }
+            },
+        });
+    });
+</script>
+</body>
+</html>

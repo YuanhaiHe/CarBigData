@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwadee.scu.dao.ResultDao">
+<!--    SalesTop3查询-->
+    <select id="selectTotalTop3" resultType="com.hwadee.scu.to.CarTo">
+       select * from (select carType,carName,totalSales from CarInfo order by totalSales desc) as carinfo limit 3
+    </select>
+    <select id="selectCarTop3" resultType="com.hwadee.scu.to.CarTo">
+        select * from (select carType,carName,totalSales from CarInfo where carType = '轿车' order by totalSales desc) as car limit 3
+    </select>
+    <select id="selectSuvTop3" resultType="com.hwadee.scu.to.CarTo">
+        select * from (select carType,carName,totalSales from CarInfo where carType = 'SUV' order by totalSales desc) as suv limit 3
+    </select>
+    <select id="selectMpvTop3" resultType="com.hwadee.scu.to.CarTo">
+        select * from (select carType,carName,totalSales from CarInfo where carType = 'MPV' order by totalSales desc) as mpv limit 3
+    </select>
+    <select id="selectNewTop3" resultType="com.hwadee.scu.to.CarTo">
+        select '新能源' as 'carType',carName,totalSales from CarInfo c,new_energy_car n where c.carID=n.carID order by totalSales desc limit 3
+    </select>
+
+<!--salesMonth查询-->
+    <select id="selectTotalSales" resultType="Integer">
+        select (carSales + suvSales + mpvSales ) as sales from result
+    </select>
+    <select id="selectCarSales" resultType="java.lang.Integer">
+        select carSales from result
+    </select>
+    <select id="selectSuvSales" resultType="java.lang.Integer">
+        select  suvSales  from result
+    </select>
+    <select id="selectMpvSales" resultType="java.lang.Integer">
+        select  mpvSales  from result
+    </select>
+    <select id="selectNewSales" resultType="java.lang.Integer">
+        select  newSales from result
+    </select>
+    <select id="selectOtherSales" resultType="java.lang.Integer">
+        select (carSales + suvSales + mpvSales -newSales) sales from result
+    </select>
+
+<!--  占比查询-->
+
+    <select id="selectTotalRate" resultType="com.hwadee.scu.to.SalesAndRateTo">
+        select sum(carSales) as carSales,sum(suvSales) as suvSales,sum(mpvSales) as mpvSales, (sum(carRate)/(sum(carRate)+sum(suvRate)+sum(mpvRate))) carRate, (sum(suvRate)/(sum(carRate)+sum(suvRate)+sum(mpvRate))) suvRate, (sum(mpvRate)/(sum(carRate)+sum(suvRate)+sum(mpvRate))) mpvRate from result
+    </select>
+    <select id="selectNewRate" resultType="com.hwadee.scu.to.SalesAndRateTo">
+        select (sum(carSales)+sum(suvSales)+sum(mpvSales)) as otherSales,((sum(carRate)+sum(suvRate)+sum(mpvRate))/(sum(carRate)+sum(suvRate)+sum(mpvRate)+sum(newRate))) as otherRate,sum(newSales) as newSales,(sum(newRate)/(sum(carRate)+sum(suvRate)+sum(mpvRate)+sum(newRate))) as newRate from result
+    </select>
+    <select id="selectHalfYearRate" resultType="com.hwadee.scu.to.SalesAndRateTo">
+        select carRate,carSales,suvRate,suvSales,mpvRate,mpvSales,newSales from result
+    </select>
+
+
+
+    <!--主页查询-->
+    <!--总览部分-->
+    <select id="countInfo" resultType="java.lang.Integer">
+        select count(1)
+        from CarInfo left join new_energy_car on CarInfo.carID = new_energy_car.carID
+        where CarInfo.carType=#{carType} and new_energy_car.carID is null
+    </select>
+    <select id="countNewInfo" resultType="java.lang.Integer">
+        select count(1)
+        from new_energy_car
+    </select>
+    <select id="getTotalSales" resultType="java.lang.Integer">
+        select sum(totalSales) as salesTotal
+        from CarInfo
+    </select>
+    <!--销量排行模块-->
+    <select id="showIndexTop3" resultType="com.hwadee.scu.to.CarTo">
+        select carName,carType,totalSales
+        from CarInfo
+        order by totalSales limit 3
+    </select>
+    <!--分月销量分析部分-->
+    <select id="showTotalSalesList" resultType="Integer">
+        select (carSales + suvSales + mpvSales) as sales from result
+    </select>
+    <select id="showOtherSalesList" resultType="Integer">
+        select (carSales + suvSales + mpvSales-newSales) as sales from result
+    </select>
+    <select id="showNewSalesList" resultType="Integer">
+        select newSales from result
+    </select>
+    <!--车型占比部分-->
+    <select id="showCarSales" resultType="java.lang.Integer">
+        select sum(carSales) as salesCar from result
+    </select>
+    <select id="showMPVSales" resultType="java.lang.Integer">
+        select sum(mpvSales) as salesMPV from result
+    </select>
+    <select id="showSUVSales" resultType="java.lang.Integer">
+        select sum(suvSales) as salesSUV from result
+    </select>
+    <!--新能源占比部分-->
+    <select id="showNewSales" resultType="java.lang.Integer">
+        select sum(newSales) as salesNew from result
+    </select>
+    <select id="showAllSales" resultType="java.lang.Integer">
+        select sum(carSales + suvSales + mpvSales + newSales) as allSales from result
+    </select>
+    <!--首页推荐部分-->
+    <resultMap type="com.hwadee.scu.entities.CarInformation" id="CarInformation">
+        <result property="carID" column="carID" jdbcType="INTEGER"/>
+        <result property="carType" column="carType" jdbcType="VARCHAR"/>
+        <result property="carName" column="carName" jdbcType="VARCHAR"/>
+        <result property="priceL" column="priceLower" jdbcType="FLOAT"/>
+        <result property="priceH" column="priceUpper" jdbcType="FLOAT"/>
+        <result property="information" column="carPara" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="showIndexRecommend" resultMap="CarInformation">
+        select CarInfo.carID, CarInfo.carType, CarInfo.carName, CarInfo.priceLower, CarInfo.priceUpper, CarInfo.carPara
+        from CarInfo left join new_energy_car on CarInfo.carID = new_energy_car.carID
+        where CarInfo.carType=#{carType} and new_energy_car.carID is null
+        order by totalSales limit 2
+    </select>
+    <select id="showIndexNewRecommend" resultMap="CarInformation">
+        select CarInfo.carID, carType, carName, priceLower, priceUpper, carPara
+        from CarInfo, new_energy_car
+        where CarInfo.carID = new_energy_car.carID
+        order by totalSales limit 2
+    </select>
+    <select id="indexRecommendListOther" resultMap="CarInformation">
+        select CarInfo.carID, CarInfo.carType, CarInfo.carName, CarInfo.priceLower, CarInfo.priceUpper, CarInfo.carPara
+        from CarInfo left join new_energy_car on CarInfo.carID = new_energy_car.carID
+        where new_energy_car.carID is null
+        order by totalSales limit 3
+    </select>
+    <select id="indexRecommendListNew" resultMap="CarInformation">
+        select CarInfo.carID, carType, carName, priceLower, priceUpper, carPara
+        from CarInfo, new_energy_car
+        where CarInfo.carID = new_energy_car.carID
+        order by totalSales limit 3
+    </select>
+
+
+</mapper>

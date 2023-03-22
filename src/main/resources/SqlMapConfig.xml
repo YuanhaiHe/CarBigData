@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--
+        //注意要依赖Log4j-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!-- //设置驼峰命名，默认关闭-->
+        <setting name= "mapUnderscoreToCamelCase" value="false"/>
+    </settings>
+    <!-- 配置类的别名 方便我们在 mapper.xml中使用 -->
+    <typeAliases>
+        <package name="com.hwadee.scu.entities"/>
+        <package name="com.hwadee.scu.to"/>
+    </typeAliases>
+</configuration>

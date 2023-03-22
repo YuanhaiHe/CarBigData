@@ -1,0 +1,111 @@
+<meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="my-login-box">
+    <h2>汽车大数据平台</h2>
+    <form>
+        <div class="user-box">
+            <input type="text" id="username">
+            <label>用户名</label>
+        </div>
+        <div class="user-box">
+            <input type="password" id="password">
+            <label>密码</label>
+        </div>
+        <!--        <div class="user-box">-->
+        <!--            <input type="verifyCode" id="verifyCode">-->
+        <!--            <label>验证码</label>-->
+        <!--        </div>-->
+
+        <div class="user-box">
+            <label style="  top: -30px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;">预期车型</label>
+
+            <!-- <input type="preferCarType" id="preferCarType"  placeholder="（必填）">-->
+            <select name="text" id="preferCarType" style="width:100%;height:38px;">
+                <option value="无" selected ="selected">无</option>
+                <option value="轿车" style="height:600px"> 轿车</option>
+                <option value="SUV" style="height:600px"> SUV</option>
+                <option value="MPV" style="height:600px"> MPV</option>
+            </select>
+
+        </div>
+        <a href="register" id="register" class="register">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span> 注册
+        </a>
+
+        <a href="loginIndex" id="loginIndex" class="loginIndex">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span> 已有账号，去登陆
+        </a>
+    </form>
+</div>
+<script>
+    $(".register").on("click", function (event) {
+        event.preventDefault();//使a自带的方法失效，即无法调整到href中的URL
+        $.ajax({
+            //向后台请求数据的方式
+            type: 'post',
+            //请求后台的地址可以简写
+            url: "/register",
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                preferCarType: $("#preferCarType").val(),
+            },
+            //成功调用后台方法后的回调函数
+            success: function (response) {
+                if(response =="success"){
+                    location.href ="showIndex";
+<!--                    alert("注册成功");-->
+            }
+                if( response =="null"){
+                    alert("用户名或密码为空，请重输！！");
+                    location.href = "registerIndex" ;
+                }
+                if(response == "error"){
+                    alert("此账号已存在，可直接登陆");
+                    location.href = "loginIndex";
+                }
+            },
+        });
+    });
+</script>
+<script>
+    $(".verifyCodeG").on("click", function (event) {
+        event.preventDefault();//使a自带的方法失效，即无法调整到href中的URL
+        $.ajax({
+            //向后台请求数据的方式
+            type: 'post',
+            //请求后台的地址可以简写
+            url: "http://localhost:8080/verifyCode",
+            //data中的数据默认用id=1&username=zs&password=123%realname=zhangsan传递到后台
+            data: {
+            },
+            //成功调用后台方法后的回调函数
+            success: function (response) {
+                //跳转到主页
+                alert("等待接收验证码");
+            },
+            error: function(response){
+                alert("出错啦，请刷新页面，重试");
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

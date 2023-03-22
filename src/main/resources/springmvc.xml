@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--SpringMVC的配置文件， 包含网站跳转逻辑的控制，配置-->
+    <context:component-scan base-package="com.hwadee.scu.controller"></context:component-scan>
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <!--配置视图解析器 视图解析器对象-->
+    <bean id=" internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--配置控制器要返回给的成功项面的包路径-->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <!--配置成功页面的后缀-->
+        <property name="suffix" value=".html"/>
+    </bean>
+    <!-- 配置SpringMVC拦截器-->
+    <mvc:interceptors>
+        <!-- 可以配置多个拦截规则，形成拦截链-->
+        <mvc:interceptor>
+            <!-- 映射要拦截的请求:所有请求-->
+            <mvc:mapping path="/WEB-INF/pages/index.html"/>
+            <mvc:mapping path="/WEB-INF/pages/rate.html"/>
+            <mvc:mapping path="/WEB-INF/pages/recommend.html"/>
+            <mvc:mapping path="/WEB-INF/pages/top.html"/>
+            <mvc:mapping path="/WEB-INF/pages/trend.html"/>
+            <mvc:mapping path="/trendAnalysisIndex"/>
+            <mvc:mapping path="/topSalesIndex"/>
+            <mvc:mapping path="/rateAnalysisIndex"/>
+            <mvc:mapping path="/recommendIndex"/>
+            <mvc:mapping path="/showIndex"/>
+
+            <!-- 设置要放行的请求:有些必备的登陆请求不能拦截-->
+            <mvc:exclude-mapping path="/loginIndex"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/register"/>
+            <mvc:exclude-mapping path="/registerIndex"/>
+            <mvc:exclude-mapping path="/WEN-INF/login.html"/>
+            <mvc:exclude-mapping path="/WEN-INF/pages/login.html"/>
+            <mvc:exclude-mapping path="/WEN-INF/pages/register.html"/>
+            <!-- 配置实现拦截器功能的实现类-->
+            <bean class="com.hwadee.scu.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hwadee.scu.dao.RecommendDao">
+    <select id="selectRecommend" resultType="com.hwadee.scu.to.RecommendTo">
+        select ((priceLower+priceUpper)/2) as price,carName,carPara,carImage from CarInfo
+        <where>
+            <if test="preferCarType != '无'.toString()" >
+                 carType = #{preferCarType}
+            </if>
+        </where>
+        order by totalSales limit 10
+    </select>
+    <select id="selectAccountByUsername" resultType="com.hwadee.scu.entities.Account">
+        select * from Account where username = #{username}
+    </select>
+    <select id="selectUserByAccountID" resultType="com.hwadee.scu.entities.User">
+        select * from User where accountID = #{accountID}
+    </select>
+</mapper>
